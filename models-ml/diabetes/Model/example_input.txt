@@ -1,5 +1,0 @@
-[
-    {"Age": 55, "Sex": "Perempuan", "Education": "S2", "BMI": 22.0, "PhysHlth": 5, "PhysActivity": "Ya", "HighBP": "Tidak ada", "HighChol": "Ada", "Stroke": "Tidak pernah", "DiffWalk": "Tidak", "HeartDiseaseorAttack": "Tidak", "GenHlth": "Baik"},
-    {"Age": 29, "Sex": "Laki-laki", "Education": "D3", "BMI": 24.0, "PhysHlth": 0, "PhysActivity": "Ya", "HighBP": "Tidak ada", "HighChol": "Tidak ada", "Stroke": "Tidak pernah", "DiffWalk": "Tidak", "HeartDiseaseorAttack": "Tidak", "GenHlth": "Sehat sekali"},
-    {"Age": 33, "Sex": "Laki-laki", "Education": "S1", "BMI": 19.0, "PhysHlth": 1, "PhysActivity": "Ya", "HighBP": "Tidak ada", "HighChol": "Tidak ada", "Stroke": "Tidak pernah", "DiffWalk": "Tidak", "HeartDiseaseorAttack": "Tidak", "GenHlth": "Merasa sangat sehat"}
-]
