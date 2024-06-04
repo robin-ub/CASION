@@ -12,7 +12,7 @@ app = Flask(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Correct path to the Model directory
-model_path = os.path.join(BASE_DIR, "Model", "fnn_model.h5")
+model_path = os.path.join(BASE_DIR, "Model", "model.h5")
 scaler_path = os.path.join(BASE_DIR, "Model", "scaler_model.pkl")
 
 # Load the trained model
@@ -43,7 +43,11 @@ def predict():
         # Prepare the response
         results = []
         for prob, cls in zip(y_pred_percentages, y_pred_class):
-            result = {"Predicted Probability (%)": prob.tolist(), "Predicted Class": int(cls)}
+            predicted_probability = float(prob[cls])  # Convert to native Python float
+            result = {
+                "Predicted Class": int(cls),
+                "Predicted Probability (%)": predicted_probability
+            }
             results.append(result)
 
         # Return the predictions
