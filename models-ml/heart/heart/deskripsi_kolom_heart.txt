@@ -1,0 +1,60 @@
+age
+Age of the patient in years
+
+sex
+0 = female, 1 = male
+
+cp
+Chest pain type:
+0 = typical angina
+1 = atypical angina
+2 = non-anginal pain
+3 = asymptomatic
+
+trestbps
+Resting blood pressure (in mm Hg) on admission to the hospital
+
+chol
+Serum cholesterol in mg/dl
+
+fbs
+Fasting blood sugar > 120 mg/dl:
+0 = false
+1 = true
+
+restecg
+Resting electrocardiographic results:
+0 = normal
+1 = having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV)
+2 = showing probable or definite left ventricular hypertrophy by Estes' criteria
+
+thalach
+Maximum heart rate achieved
+
+exang
+Exercise-induced angina:
+0 = no
+1 = yes
+
+oldpeak
+ST depression induced by exercise relative to rest
+
+slope
+The slope of the peak exercise ST segment:
+0 = upsloping
+1 = flat
+2 = downsloping
+
+ca
+Number of major vessels (0-3) colored by fluoroscopy
+
+thal
+Thalassemia:
+1 = normal
+2 = fixed defect
+3 = reversible defect
+
+target
+Presence of heart disease:
+0 = no heart disease
+1 = heart disease
