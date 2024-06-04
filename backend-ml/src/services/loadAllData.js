@@ -1,7 +1,9 @@
 const { Firestore } = require("@google-cloud/firestore");
 
 async function getAllData() {
-  const db = new Firestore();
+  const db = new Firestore({
+    databaseId:"ml-db"
+  });
   const snapshotData = await db.collection("predictions").get();
   const allData = [];
   snapshotData.forEach((doc) => {

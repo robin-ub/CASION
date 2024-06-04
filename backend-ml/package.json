@@ -1,10 +1,10 @@
 {
-  "name": "submission-mlgc-robin",
+  "name": "backend-ml",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon ./src/server/server.js",
+    "start:dev": "node ./src/server/server.js",
     "start": "node ./src/server/server.js"
   },
   "keywords": [],
@@ -14,7 +14,7 @@
   "dependencies": {
     "@google-cloud/firestore": "^7.7.0",
     "@hapi/hapi": "^21.3.9",
-    "@tensorflow/tfjs-node": "^4.14.0",
+    "@tensorflow/tfjs-node": "^4.20.0",
     "dotenv": "^16.4.5",
     "nodemon": "^3.1.0"
   }
