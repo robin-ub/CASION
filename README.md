@@ -1,5 +1,3 @@
-This is our CASION Bangkit Capstone Product repository
-
 Member:
 (ML) M007D4KY3109 – Noval Ariyanto
 (ML) M010D4KX1636 – Alifya Zhafira Ananda
