@@ -4,10 +4,12 @@ const storeData = require("../services/storeData");
 const loadAllData = require("../services/loadAllData");
 
 async function postPredictHandler(request, h) {
-  const { model } = request.server.app;
-  const { text } = request.payload;
+  const { model } = request.server.app; // Get the model from the server
+  const { category } = request.payload; // Extract category text from the request payload
+  const { text } = request.payload; // Extract input text from the request payload
 
-  const { confidenceScore, label, suggestion } = await predictClassification(model, text);
+  // Perform prediction using the inference service
+  const {label, confidenceScore, description, suggestion} = await predictClassification(model, category, text);
   const id = crypto.randomUUID();
   const createdAt = new Date().toISOString();
 
@@ -15,6 +17,7 @@ async function postPredictHandler(request, h) {
     id: id,
     result: label,
     confidenceScore: confidenceScore,
+    description: description,
     suggestion: suggestion,
     createdAt: createdAt,
   };
