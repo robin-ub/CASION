@@ -25,9 +25,11 @@ const register = async (full_name, email, password) => {
         // Create user in the database
         const newUserRef = userRef.push();
         await newUserRef.set({
-            full_name, full_name,
+            full_name: full_name,
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            age : age,
+            gender: gender
         });
 
         console.log(newUserRef.key)

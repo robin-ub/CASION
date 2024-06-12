@@ -7,8 +7,8 @@ const verifyToken = require('../middleware/authToken');
 
 // Register endpoint
 userRouter.post('/register', async (req, res) => {
-    const { full_name, email, password } = req.body;
-    const result = await register(full_name, email, password);
+    const { full_name, email, password, age, gender } = req.body;
+    const result = await register(full_name, email, password, age, gender);
     res.status(result.success ? 200 : 400).send(result);
 });
 
@@ -39,7 +39,7 @@ userRouter.get('/details', verifyToken, async (req, res) => {
 // Update user details
 userRouter.put('/details', verifyToken, async (req, res) => {
     const userId = req.user;
-    const userDetails = req.body; // Gender, birthday, and medical history fields
+    const userDetails = req.body; // Gender, birthday, education background, and medical history fields
     const result = await updateUserDetails(userId, userDetails);
     res.status(result.success ? 200 : 500).send(result);
 });

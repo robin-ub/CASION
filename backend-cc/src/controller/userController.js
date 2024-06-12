@@ -14,7 +14,8 @@ const fetchUserDetails = async (userId) => {
             email: userData.email,
             gender: userData.gender,
             birthday: userData.birthday,
-            medicalHistory: userData.medicalHistory
+            medicalHistory: userData.medicalHistory,
+            education : userData.education
         };
 
         return { success: true, message: 'User details fetched successfully', userDetails };
