@@ -1,34 +1,21 @@
 const tf = require("@tensorflow/tfjs-node");
 const InputError = require("../exceptions/InputError");
 
+// Function to predict classification based on model, category, and input text
 async function predictClassification(model, text) {
   try {
-    // const tensor = tf.node.decodeJpeg(image)
-    //   .resizeNearestNeighbor([224, 224])
-    //   .expandDims()
-    //   .toFloat();
-
-    // lengkapin fungsi convert text ke tensor DONE
-    // const tensor = tf.node.encodeString(text).expandDims();
+    // Convert input text to tensor
     const tensor = tf.node.encodeString(text.split(',')).expandDims();
 
-    const prediction = model.predict(tensor);
-    const score = await prediction.data();
-    const confidenceScore = Math.max(...score) * 100;
+    // Predict using the provided model
+    const prediction = await model.predict(tensor);
 
-    // PR : minta 
-    const classes = ['Melanocytic nevus', 'Squamous cell carcinoma', 'Vascular lesion'];
-    
-    const classResult = tf.argMax(prediction, 1).dataSync()[0];
-    const label = classes[classResult];
+    //DIABETES & HEART & GENERAL process
+      const {label, confidenceScore, description, suggestion} = prediction; 
+      return {label, confidenceScore, description, suggestion};
 
-    // ML  minta buat label + suggestion (general / dikosongin dulu juga gapapa dari ml)
-    // const suggestion = label === "Cancer" 
-    // ? "Sistem kami mendeteksi probabilitas cancer, segera periksakan ke dokter!"
-    // : "Sistem kami tidak mendeteksi probabilitas cancer, segera periksakan ke dokter!";
-
-    return { label, suggestion, confidenceScore};
   } catch (error) {
+    // Throw error if prediction fails
     throw new InputError("Terjadi kesalahan dalam melakukan prediksi", 400);
   }
 }
