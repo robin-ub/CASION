@@ -1,13 +1,12 @@
 const tf = require("@tensorflow/tfjs-node");
-const input = require("../server/handler")
 
-async function loadModel() {
-  if (input.category == "diabetes"){
+async function loadModel(category) {
+  if (category === "diabetes") {
     return tf.loadGraphModel(process.env.MODEL_DIABETES_URL);
-  }else if (input.category == "heart"){
+  } else if (category === "heart") {
     return tf.loadGraphModel(process.env.MODEL_HEART_URL);
-  }else{ // "general"
-    return tf.loadGraphModel(process.env.MODEL_DIABETES_URL);
+  } else {
+    return tf.loadGraphModel(process.env.MODEL_GENERAL_URL);
   }
 }
 

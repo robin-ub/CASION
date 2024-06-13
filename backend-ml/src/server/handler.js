@@ -1,22 +1,21 @@
 const predictClassification = require("../services/inferenceService");
 const crypto = require("crypto");
 const storeData = require("../services/storeData");
-const loadAllData = require("../services/loadAllData");
+const loadModel = require("../services/loadModel");
 
 async function postPredictHandler(request, h) {
-  const { model } = request.server.app; // Get the model from the server
-  const { category } = request.payload; // Extract category text from the request payload
-  const { text } = request.payload; // Extract input text from the request payload
+  const { category, text } = request.payload; // Extract category and text from the request payload
+  const model = await loadModel(category); // Load the appropriate model based on the category
 
   // Perform prediction using the inference service
-  const {label, confidenceScore, description, suggestion} = await predictClassification(model, category, text);
+  const { label, probability, description, suggestion } = await predictClassification(model, text);
   const id = crypto.randomUUID();
   const createdAt = new Date().toISOString();
 
   const data = {
     id: id,
     result: label,
-    confidenceScore: confidenceScore,
+    confidenceScore: probability,
     description: description,
     suggestion: suggestion,
     createdAt: createdAt,
@@ -26,7 +25,7 @@ async function postPredictHandler(request, h) {
 
   const response = h.response({
     status: "success",
-    message: "Model is predicted successfully",
+    message: "Model predicted successfully",
     data,
   });
   response.code(201);

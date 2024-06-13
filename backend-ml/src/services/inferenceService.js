@@ -1,21 +1,28 @@
 const tf = require("@tensorflow/tfjs-node");
 const InputError = require("../exceptions/InputError");
 
-// Function to predict classification based on model, category, and input text
 async function predictClassification(model, text) {
   try {
     // Convert input text to tensor
-    const tensor = tf.node.encodeString(text.split(',')).expandDims();
+    const symptoms = text.split(',');
+    const tensor = tf.tensor1d(symptoms);
 
     // Predict using the provided model
-    const prediction = await model.predict(tensor);
+    const prediction = await model.predict(tensor.expandDims(0));
 
-    //DIABETES & HEART & GENERAL process
-      const {label, confidenceScore, description, suggestion} = prediction; 
-      return {label, confidenceScore, description, suggestion};
+    // Extract prediction results
+    const label = prediction[0] || "Unknown";
+    const probability = prediction[1] || 0;
+    const description = prediction[2] || "No description available";
+    const suggestion = prediction[3] || "No suggestion available";
 
+    return {
+      label,
+      probability,
+      description,
+      suggestion,
+    };
   } catch (error) {
-    // Throw error if prediction fails
     throw new InputError("Terjadi kesalahan dalam melakukan prediksi", 400);
   }
 }
