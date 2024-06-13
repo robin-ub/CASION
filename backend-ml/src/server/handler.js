@@ -1,14 +1,24 @@
-const predictClassification = require("../services/inferenceService");
+const generalService = require("../services/generalService");
+const diabetesService = require("../services/diabetesService");
+const heartService = require("../services/heartService");
 const crypto = require("crypto");
 const storeData = require("../services/storeData");
-const loadModel = require("../services/loadModel");
+const loadAllData = require("../services/loadAllData");
 
 async function postPredictHandler(request, h) {
   const { category, text } = request.payload; // Extract category and text from the request payload
-  const model = await loadModel(category); // Load the appropriate model based on the category
+  let predictClassification;
 
-  // Perform prediction using the inference service
-  const { label, probability, description, suggestion } = await predictClassification(model, text);
+  if (category === "diabetes") {
+    predictClassification = diabetesService;
+  } else if (category === "heart") {
+    predictClassification = heartService;
+  } else {
+    predictClassification = generalService;
+  }
+
+  // Perform prediction using the selected service
+  const { label, probability, description, suggestion } = await predictClassification(text);
   const id = crypto.randomUUID();
   const createdAt = new Date().toISOString();
 
