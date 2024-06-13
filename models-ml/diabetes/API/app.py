@@ -81,23 +81,41 @@
 import pandas as pd
 import os
 import joblib
+import requests
 from flask import Flask, request, jsonify
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+from io import BytesIO
+import random
+import tempfile
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Define the base path
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# URL Link model
+model_url = 'https://raw.githubusercontent.com/robin-ub/CASION/b2bf472d90aa500f3a081101bb8c524c2d8eef51/models-ml/diabetes/Model/fnn_model.h5'
+scaler_url = 'https://raw.githubusercontent.com/robin-ub/CASION/b2bf472d90aa500f3a081101bb8c524c2d8eef51/models-ml/diabetes/Model/scaler_model.pkl'
 
-# Correct path to the Model directory
-model_path = os.path.join(BASE_DIR, "Model", "fnn_model.h5")
-scaler_path = os.path.join(BASE_DIR, "Model", "scaler_model.pkl")
+# Function to download and temporarily save model
+def download_model(url):
+    response = requests.get(url)
+    temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".h5")
+    with open(temp_file.name, 'wb') as file:
+        file.write(response.content)
+    model = load_model(temp_file.name)
+    temp_file.close()
+    os.unlink(temp_file.name)
+    return model
 
-# Load the trained model
-model = load_model(model_path)
-scaler = joblib.load(scaler_path)
+# Function to download scaler
+def download_scaler(url):
+    response = requests.get(url)
+    scaler_file = BytesIO(response.content)
+    return joblib.load(scaler_file)
+
+# Download model and scaler
+model = download_model(model_url)
+scaler = download_scaler(scaler_url)
 
 feature_map = {
     # Age category mapping
@@ -166,6 +184,39 @@ feature_map = {
     'Buruk': 5
 }
 
+descriptions_suggestions = {
+    0: {
+        'description': "Tidak memiliki gejala diabetes, seperti sering buang air kecil, haus berlebihan, atau penurunan berat badan yang tidak jelas. Kadar gula darah dalam batas normal dan rutin diperiksa. Menjaga pola makan sehat dan rutin berolahraga.",
+        'suggestion': [
+            "Untuk tetap sehat, teruskan gaya hidup sehat dengan diet seimbang, olahraga rutin, dan pemeriksaan gula darah berkala. Hindari makanan tinggi gula dan karbohidrat.",
+            "Untuk menjaga kesehatan, lanjutkan gaya hidup sehat dengan pola makan seimbang, rutin berolahraga, dan memeriksa gula darah secara berkala. Hindari makanan tinggi gula dan karbohidrat.",
+            "Agar tetap sehat, pertahankan gaya hidup sehat dengan diet seimbang, olahraga rutin, dan pemeriksaan gula darah secara teratur. Hindari makanan dengan kandungan gula dan karbohidrat tinggi.",
+            "Untuk menjaga kesehatan, teruskan gaya hidup sehat dengan diet seimbang, olahraga rutin, dan cek gula darah secara berkala. Hindari makanan dengan gula dan karbohidrat tinggi.",
+            "Untuk tetap sehat, teruskan pola hidup sehat dengan diet seimbang, olahraga rutin, dan pemeriksaan gula darah berkala. Hindari makanan tinggi gula dan karbohidrat."
+        ]
+    },
+    1: {
+        'description': "Kadar gula darah menunjukkan tanda-tanda prediabetes. Gejala mungkin termasuk merasa cepat lelah. Penting untuk memulai perubahan gaya hidup untuk mencegah perkembangan diabetes.",
+        'suggestion': [
+            "Adopsi pola makan sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau kadar gula darah secara berkala. Edukasi diabetes dapat membantu mencegah perkembangan menjadi diabetes tipe 2.",
+            "Mulai pola makan sehat dengan mengurangi gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara teratur. Edukasi diabetes dapat membantu mencegah diabetes tipe 2.",
+            "Adopsi diet sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara berkala. Edukasi diabetes membantu mencegah perkembangan diabetes tipe 2.",
+            "Mulai pola makan sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara teratur. Edukasi diabetes dapat membantu mencegah diabetes tipe 2.",
+            "Adopsi pola makan sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara berkala. Edukasi diabetes dapat membantu mencegah perkembangan menjadi diabetes tipe 2."
+        ]
+    },
+    2: {
+        'description': "Gejala termasuk sering buang air kecil, haus berlebihan, dan penurunan berat badan tanpa sebab. Di Diagnosis dengan diabetes tipe 2, perlu pengobatan dan perubahan gaya hidup signifikan.",
+        'suggestion': [
+            "Ikuti anjuran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes membantu dalam pengelolaan kondisi dan pencegahan komplikasi.",
+            "Ikuti nasihat dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes sangat membantu pengelolaan kondisi dan pencegahan komplikasi.",
+            "Patuhi saran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes sangat membantu dalam pengelolaan kondisi dan pencegahan komplikasi.",
+            "Ikuti anjuran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes sangat membantu pengelolaan kondisi dan pencegahan komplikasi.",
+            "Ikuti saran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes membantu dalam pengelolaan kondisi dan pencegahan komplikasi."
+        ]
+    }
+}
+
 def map_age_to_category(age):
     for category, (start, end) in feature_map['age_map'].items():
         if end is None:
@@ -211,14 +262,17 @@ def predict():
         # Prepare the response
         results = []
         for prob, cls in zip(y_pred_percentages, y_pred_class):
-            predicted_probability = float(prob[cls])  # Convert to native Python float
+            predicted_probability = float(prob[cls])
+            description = descriptions_suggestions[cls]['description']
+            suggestion = random.choice(descriptions_suggestions[cls]['suggestion'])
             result = {
                 "Predicted Class": int(cls),
-                "Predicted Probability (%)": predicted_probability
+                "Predicted Probability (%)": predicted_probability,
+                "Description": description,
+                "Suggestion": suggestion
             }
             results.append(result)
 
-        # Return the predictions
         return jsonify(results)
 
     except Exception as e:
