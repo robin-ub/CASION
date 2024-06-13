@@ -8,13 +8,16 @@ async function predictClassification(model, text) {
     const tensor = tf.tensor1d(symptoms);
 
     // Predict using the provided model
-    const prediction = await model.predict(tensor.expandDims(0));
+    const predictionTensor = await model.predict(tensor.expandDims(0));
+
+    // Convert prediction tensor to JavaScript object
+    const prediction = await predictionTensor.array(); 
 
     // Extract prediction results
-    const label = prediction[0] || "Unknown";
-    const probability = prediction[1] || 0;
-    const description = prediction[2] || "No description available";
-    const suggestion = prediction[3] || "No suggestion available";
+    const label = prediction['predicted_prognosis'] || "Unknown"; 
+    const probability = prediction['probability'] || 0;
+    const description = prediction['description'] || "No description available";
+    const suggestion = prediction['suggestion'] || "No suggestion available";
 
     return {
       label,
