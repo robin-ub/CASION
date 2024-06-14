@@ -1,46 +1,39 @@
-const tf = require("@tensorflow/tfjs-node");
-const loadModel = require('./loadModel');
+const axios = require('axios');
 const InputError = require("../exceptions/InputError");
 
-let model, symptoms, labelEncoder;
-
-(async () => {
-  const loadedData = await loadModel('diabetes');
-  model = loadedData.model;
-  symptoms = loadedData.symptoms;
-  labelEncoder = loadedData.labelEncoder;
-})();
-
-async function predictClassification(text) {
+async function predictClassification(inputData) {
   try {
-    const symptomsList = text.split(',').map(symptom => symptom.trim());
-
-    if (!(3 <= symptomsList.length && symptomsList.length <= 5)) {
-      throw new InputError('Input must contain between 3 and 5 symptoms.');
-    }
-
-    const inputArray = new Array(symptoms.length).fill(0);
-    symptomsList.forEach(symptom => {
-      const index = symptoms.indexOf(symptom);
-      if (index !== -1) {
-        inputArray[index] = 1;
-      } else {
-        throw new InputError(`Unknown symptom: ${symptom}`);
+    // Example inputData from frontend: "text": "55,Perempuan,S2,22.0,5,Ya,Tidak ada,Ada,Tidak pernah,Tidak,Tidak,Baik"
+    const rawInput = inputData.text.split(',');
+    
+    // Parse raw input into structured format required by the Diabetes prediction API
+    const structuredInput = [
+      {
+        "Age": parseInt(rawInput[0].trim(), 10),
+        "Sex": rawInput[1].trim(),
+        "Education": rawInput[2].trim(),
+        "BMI": parseFloat(rawInput[3].trim()),
+        "PhysHlth": parseInt(rawInput[4].trim(), 10),
+        "PhysActivity": rawInput[5].trim(),
+        "HighBP": rawInput[6].trim(),
+        "HighChol": rawInput[7].trim(),
+        "Stroke": rawInput[8].trim(),
+        "DiffWalk": rawInput[9].trim(),
+        "HeartDiseaseorAttack": rawInput[10].trim(),
+        "GenHlth": rawInput[11].trim(),
       }
-    });
+    ];
 
-    const tensor = tf.tensor2d([inputArray], [1, symptoms.length]);
-    const prediction = await model.predict(tensor).array();
-    const predictedLabelIndex = prediction[0].indexOf(Math.max(...prediction[0]));
-    const probability = Math.max(...prediction[0]) * 100;
+    // Send request to the Diabetes prediction API
+    const response = await axios.post(process.env.DIABETES_API_URL, structuredInput);
+    const { Description, "Predicted Class": predictedClass, "Predicted Probability (%)": predictedProbability, Suggestion } = response.data[0];
 
-    const predictedPrognosis = labelEncoder.inverse_transform([predictedLabelIndex])[0];
-
+    // Prepare and return the response
     return {
-      label: predictedPrognosis,
-      probability: probability,
-      description: "Description not available yet.",
-      suggestion: "Suggestion not available yet.",
+      label: predictedClass,
+      probability: predictedProbability,
+      description: Description,
+      suggestion: Suggestion,
     };
   } catch (error) {
     console.error("Error during prediction:", error);

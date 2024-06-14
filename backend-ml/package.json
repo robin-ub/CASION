@@ -15,7 +15,10 @@
     "@google-cloud/firestore": "^7.8.0",
     "@hapi/hapi": "^21.3.9",
     "@tensorflow/tfjs-node": "^4.20.0",
+    "axios": "^1.7.2",
     "dotenv": "^16.4.5",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "papaparse": "^5.4.1",
+    "picklejs": "^0.97.0"
   }
 }
