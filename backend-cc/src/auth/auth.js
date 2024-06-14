@@ -11,7 +11,7 @@ const generateJWT = (uid) => {
     return jwt.sign({ uid }, process.env.JWT_SECRET, { expiresIn: '1h' });
 }
 
-const register = async (full_name, email, password) => {
+const register = async (full_name, email, password, birthday, gender) => {
     try {
         // Check if user with the provided email already exists
         const snapshot = await userRef.orderByChild('email').equalTo(email).once('value');
@@ -28,7 +28,7 @@ const register = async (full_name, email, password) => {
             full_name: full_name,
             email: email,
             password: hashedPassword,
-            age : age,
+            birthday: birthday,
             gender: gender
         });
 

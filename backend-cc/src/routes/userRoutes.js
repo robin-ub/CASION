@@ -7,8 +7,8 @@ const verifyToken = require('../middleware/authToken');
 
 // Register endpoint
 userRouter.post('/register', async (req, res) => {
-    const { full_name, email, password, age, gender } = req.body;
-    const result = await register(full_name, email, password, age, gender);
+    const { full_name, email, password, birthday, gender } = req.body;
+    const result = await register(full_name, email, password, birthday, gender);
     res.status(result.success ? 200 : 400).send(result);
 });
 
