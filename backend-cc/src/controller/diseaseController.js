@@ -6,12 +6,14 @@ const fetchDiseases = async (userId) => {
         const diseases = [];
         diseasesSnapshot.forEach((diseaseSnapshot) => {
             const diseaseData = diseaseSnapshot.val();
-            const treatments = diseaseData.treatments ? Object.values(diseaseData.treatments) : [];
             diseases.push({
                 diseaseId: diseaseSnapshot.key,
                 name: diseaseData.name,
                 description: diseaseData.description,
-                treatments: treatments
+                suggestion: diseaseData.suggestion || '', // Ensure treatments is a string
+                confidenceScore: diseaseData.confidenceScore || 0,
+                category: diseaseData.category || '',
+                createdAt: diseaseData.createdAt || ''
             });
         });
 
@@ -27,16 +29,14 @@ const storeDisease = async (userId, disease) => {
         const diseaseRef = db.ref(`users/${userId}/diseases`);
         const newDiseaseRef = await diseaseRef.push({
             name: disease.name,
-            description: disease.description
+            description: disease.description,
+            suggestion: disease.suggestion || '',
+            confidenceScore: disease.confidenceScore || 0,
+            category: disease.category || '',
+            createdAt: disease.createdAt || new Date().toISOString()
         });
 
         const diseaseId = newDiseaseRef.key;
-        const treatments = disease.treatments || [];
-
-        const treatmentsRef = db.ref(`users/${userId}/diseases/${diseaseId}/treatments`);
-        for (const treatment of treatments) {
-            await treatmentsRef.push(treatment);
-        }
 
         return { success: true, message: 'Disease stored successfully', diseaseId };
     } catch (error) {
