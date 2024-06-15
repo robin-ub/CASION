@@ -93,8 +93,8 @@ import tempfile
 app = Flask(__name__)
 
 # URL Link model
-model_url = 'https://raw.githubusercontent.com/robin-ub/CASION/b2bf472d90aa500f3a081101bb8c524c2d8eef51/models-ml/diabetes/Model/fnn_model.h5'
-scaler_url = 'https://raw.githubusercontent.com/robin-ub/CASION/b2bf472d90aa500f3a081101bb8c524c2d8eef51/models-ml/diabetes/Model/scaler_model.pkl'
+model_url = 'https://raw.githubusercontent.com/robin-ub/CASION/44321694b233809600371faf5415387e75fa5f53/models-ml/diabetes/Model/lstm_model.h5'
+scaler_url = 'https://raw.githubusercontent.com/robin-ub/CASION/44321694b233809600371faf5415387e75fa5f53/models-ml/diabetes/Model/scaler_model.pkl'
 
 # Function to download and temporarily save model
 def download_model(url):
@@ -251,6 +251,10 @@ def predict():
 
         # Preprocess the data
         X = scaler.transform(df)
+        print(X)
+
+        # Reshape data to 3D
+        X = X.reshape((X.shape[0], 1, X.shape[1]))
 
         # Predict using the loaded model
         y_pred_probs = model.predict(X)
