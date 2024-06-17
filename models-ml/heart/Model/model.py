@@ -19,8 +19,13 @@ import pickle
 import tensorflow as tf
 from sklearn.metrics import classification_report
 from sklearn.metrics import accuracy_score,r2_score
+import json
 
-df = pd.read_csv(r'ucl/heart/heart.csv')
+# URL to the dataset on GitHub
+data_url = 'https://raw.githubusercontent.com/robin-ub/CASION/9dbbb9709914d9a9a46f9a0753062802a950ea7e/models-ml/heart/Data/heart.csv'
+
+# Load the dataset
+df = pd.read_csv(data_url)
 
 X = df[["age", "sex", "cp", "trestbps", "chol", "fbs", "thalach", "exang"]]
 y = df['target']
@@ -76,3 +81,35 @@ accuracy_score(y_test, y_pred)
 
 #save model
 model.save("model.h5")
+
+print("Accuracy:", accuracy_score)
+
+# Save the model to JSON
+model_json = model.to_json()
+with open('model.json', 'w') as json_file:
+    json_file.write(model_json)
+
+# Save the model weights
+model.save_weights('model_weights.weights.h5')
+
+# Save scaler parameters
+scaler_info = {
+    'mean': scaler.mean_.tolist(),
+    'var': scaler.var_.tolist(),
+    'scale': scaler.scale_.tolist()
+}
+
+with open('scaler_model.json', 'w') as file:
+    json.dump(scaler_info, file, indent=4)
+
+# Define a function to split the file into shards
+def split_file(file_name, number_of_shards):
+    with open(file_name, 'rb') as f:
+        data = f.read()
+    size_of_shard = len(data) // number_of_shards + (len(data) % number_of_shards > 0)
+    for i in range(number_of_shards):
+        with open(f"group1-shard{i+1}of{number_of_shards}.bin", 'wb') as f:
+            f.write(data[i*size_of_shard:(i+1)*size_of_shard])
+
+# Split the weights file into shards
+split_file('model_weights.weights.h5', 4)
