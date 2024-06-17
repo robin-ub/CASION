@@ -2,21 +2,48 @@ import numpy as np
 import pandas as pd
 import pickle
 import tensorflow as tf
+import os
+import joblib
+import requests
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Load the scaler, PCA, label encoder, and model
-with open('ucl\heart\scaler.pkl', 'rb') as f:
+# URL Link model
+scaler_url = 'https://raw.githubusercontent.com/robin-ub/CASION/9dbbb9709914d9a9a46f9a0753062802a950ea7e/models-ml/heart/Model/scaler.pkl'
+pca_url = 'https://raw.githubusercontent.com/robin-ub/CASION/9dbbb9709914d9a9a46f9a0753062802a950ea7e/models-ml/heart/Model/pca.pkl'
+le_url = 'https://raw.githubusercontent.com/robin-ub/CASION/9dbbb9709914d9a9a46f9a0753062802a950ea7e/models-ml/heart/Model/labelencoder.pkl'
+model_url = 'https://raw.githubusercontent.com/robin-ub/CASION/9dbbb9709914d9a9a46f9a0753062802a950ea7e/models-ml/heart/Model/model.h5'
+
+# Directory to save downloaded files
+download_dir = "downloaded_files"
+os.makedirs(download_dir, exist_ok=True)
+
+# Helper function to download a file
+def download_file(url, local_filename):
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(local_filename, 'wb') as f:
+            f.write(response.content)
+    else:
+        raise Exception(f"Failed to download file from {url}")
+
+# Download and load the scaler, PCA, label encoder, and model
+download_file(scaler_url, os.path.join(download_dir, "scaler.pkl"))
+download_file(pca_url, os.path.join(download_dir, "pca.pkl"))
+download_file(le_url, os.path.join(download_dir, "labelencoder.pkl"))
+download_file(model_url, os.path.join(download_dir, "model.h5"))
+
+with open(os.path.join(download_dir, 'scaler.pkl'), 'rb') as f:
     scaler = pickle.load(f)
 
-with open('ucl\heart\pca.pkl', 'rb') as f:
+with open(os.path.join(download_dir, 'pca.pkl'), 'rb') as f:
     pca = pickle.load(f)
 
-with open('ucl\heart\labelencoder.pkl', 'rb') as f:
+with open(os.path.join(download_dir, 'labelencoder.pkl'), 'rb') as f:
     le = pickle.load(f)
 
-model = tf.keras.models.load_model('ucl\heart\model.h5')
+model = tf.keras.models.load_model(os.path.join(download_dir, 'model.h5'))
 
 @app.route("/predict", methods=["POST"])
 def predict():
