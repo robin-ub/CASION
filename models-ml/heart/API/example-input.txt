@@ -1,0 +1,10 @@
+{
+    "age": 37,
+    "sex": 1,
+    "cp": 2,
+    "trestbps": 130,
+    "chol": 250,
+    "fbs": 0,
+    "thalach": 187,
+    "exang": 0
+}
