@@ -18,7 +18,7 @@ app = Flask(__name__)
 MODEL_URL = 'https://github.com/robin-ub/CASION/raw/95f3741d59fc3ad5763c3448ae37a3f7f27bf175/models-ml/general/Model/generalDisease_prediction_model.h5'
 LABEL_ENCODER_URL = 'https://github.com/robin-ub/CASION/raw/95f3741d59fc3ad5763c3448ae37a3f7f27bf175/models-ml/general/API/label_encoder.pkl'
 DATA_URL = 'https://github.com/robin-ub/CASION/raw/95f3741d59fc3ad5763c3448ae37a3f7f27bf175/models-ml/general/Dataset%20General%20Symptoms/Training.csv'
-PROGNOSIS_URL = 'https://github.com/robin-ub/CASION/blob/1a523d27551b8ec6c7bf8b986193b8be42bf568c/models-ml/general/Dataset%20General%20Symptoms/List%20of%20Prognosis%20-%20Description%20%26%20Precautions.csv'
+PROGNOSIS_URL = 'https://github.com/robin-ub/CASION/raw/1a523d27551b8ec6c7bf8b986193b8be42bf568c/models-ml/general/Dataset%20General%20Symptoms/List%20of%20Prognosis%20-%20Description%20%26%20Precautions.csv'
 
 def download_file(url, suffix):
     """Download and temporarily save a file."""
