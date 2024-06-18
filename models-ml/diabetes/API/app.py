@@ -186,33 +186,30 @@ feature_map = {
 
 descriptions_suggestions = {
     0: {
-        'description': "Tidak memiliki gejala diabetes, seperti sering buang air kecil, haus berlebihan, atau penurunan berat badan yang tidak jelas. Kadar gula darah dalam batas normal dan rutin diperiksa. Menjaga pola makan sehat dan rutin berolahraga.",
+        'description': "Sehat adalah keadaan di mana seseorang tidak hanya bebas dari penyakit atau kelemahan, tetapi juga memiliki kesejahteraan fisik, mental, dan sosial yang optimal. Definisi ini diambil dari konsep kesehatan yang dikeluarkan oleh World Health Organization (WHO). Menjaga tubuh tetap sehat melibatkan beberapa aspek seperti pola makan seimbang, aktivitas fisik yang rutin, manajemen stres yang baik, serta kebiasaan hidup yang positif. ",
         'suggestion': [
             "Untuk tetap sehat, teruskan gaya hidup sehat dengan diet seimbang, olahraga rutin, dan pemeriksaan gula darah berkala. Hindari makanan tinggi gula dan karbohidrat.",
-            "Untuk menjaga kesehatan, lanjutkan gaya hidup sehat dengan pola makan seimbang, rutin berolahraga, dan memeriksa gula darah secara berkala. Hindari makanan tinggi gula dan karbohidrat.",
-            "Agar tetap sehat, pertahankan gaya hidup sehat dengan diet seimbang, olahraga rutin, dan pemeriksaan gula darah secara teratur. Hindari makanan dengan kandungan gula dan karbohidrat tinggi.",
-            "Untuk menjaga kesehatan, teruskan gaya hidup sehat dengan diet seimbang, olahraga rutin, dan cek gula darah secara berkala. Hindari makanan dengan gula dan karbohidrat tinggi.",
-            "Untuk tetap sehat, teruskan pola hidup sehat dengan diet seimbang, olahraga rutin, dan pemeriksaan gula darah berkala. Hindari makanan tinggi gula dan karbohidrat."
+            "Menjaga berat badan tetap ideal dengan cara menurunkan berat badan bagi yang kelebihan berat badan dapat membantu mengurangi risiko diabetes.",
+            "Untuk anda yang merokok, coba untuk menghindari rokok dan alkohol karena tidak merokok dan menghindari konsumsi alkohol dapat mengurangi risiko terkena diabetes dan komplikasi terkait.",
+            "Konsumsi makanan tinggi serat seperti sayuran, buah-buahan, dan biji-bijian, serta hindari makanan tinggi gula dan lemak jenuh."
         ]
     },
     1: {
-        'description': "Kadar gula darah menunjukkan tanda-tanda prediabetes. Gejala mungkin termasuk merasa cepat lelah. Penting untuk memulai perubahan gaya hidup untuk mencegah perkembangan diabetes.",
+        'description': "Prediabetes adalah kondisi di mana kadar gula darah seseorang lebih tinggi dari normal tetapi belum cukup tinggi untuk diklasifikasikan sebagai diabetes. Kondisi ini menunjukkan adanya gangguan toleransi glukosa atau peningkatan glukosa darah puasa, yang mengindikasikan bahwa tubuh mulai kehilangan kemampuannya untuk mengatur gula darah dengan baik.",
         'suggestion': [
-            "Adopsi pola makan sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau kadar gula darah secara berkala. Edukasi diabetes dapat membantu mencegah perkembangan menjadi diabetes tipe 2.",
-            "Mulai pola makan sehat dengan mengurangi gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara teratur. Edukasi diabetes dapat membantu mencegah diabetes tipe 2.",
-            "Adopsi diet sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara berkala. Edukasi diabetes membantu mencegah perkembangan diabetes tipe 2.",
-            "Mulai pola makan sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara teratur. Edukasi diabetes dapat membantu mencegah diabetes tipe 2.",
-            "Adopsi pola makan sehat dengan rendah gula dan karbohidrat, tingkatkan aktivitas fisik, dan pantau gula darah secara berkala. Edukasi diabetes dapat membantu mencegah perkembangan menjadi diabetes tipe 2."
+            "Adopsi pola makan sehat dengan rendah gula dan karbohidrat. Konsumsi makanan tinggi serat seperti sayuran, buah-buahan, dan biji-bijian.",
+            "Lalukan aktivitas rutin dan tingkatkan aktivitas fisik, seperti berjalan kaki, bersepeda, atau olahraga ringan lainnya, setidaknya 30 menit setiap hari.",
+            "Periksa kadar gula darah secara berkala, baik melalui pemeriksaan mandiri di rumah menggunakan alat pengukur gula darah maupun dengan berkonsultasi ke fasilitas kesehatan. Lalu simpan catatan harian hasil pengukuran gula darah Anda untuk memantau perubahan dan pola yang mungkin terjadi.",
+            "Ikut serta dalam program edukasi diabetes yang ditawarkan oleh pusat kesehatan, rumah sakit, atau organisasi kesehatan lainnya. Program ini biasanya mencakup informasi mengenai pola makan sehat, aktivitas fisik, serta cara mengelola stres."
         ]
     },
     2: {
-        'description': "Gejala termasuk sering buang air kecil, haus berlebihan, dan penurunan berat badan tanpa sebab. Di Diagnosis dengan diabetes tipe 2, perlu pengobatan dan perubahan gaya hidup signifikan.",
+        'description': "Diabetes adalah penyakit kronis yang ditandai oleh tingginya kadar gula darah (glukosa) yang disebabkan oleh ketidakmampuan tubuh untuk memproduksi atau menggunakan insulin secara efektif. Insulin adalah hormon yang diproduksi oleh pankreas yang memungkinkan sel-sel tubuh untuk mengambil glukosa dari darah untuk digunakan sebagai energi.",
         'suggestion': [
-            "Ikuti anjuran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes membantu dalam pengelolaan kondisi dan pencegahan komplikasi.",
-            "Ikuti nasihat dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes sangat membantu pengelolaan kondisi dan pencegahan komplikasi.",
-            "Patuhi saran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes sangat membantu dalam pengelolaan kondisi dan pencegahan komplikasi.",
-            "Ikuti anjuran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes sangat membantu pengelolaan kondisi dan pencegahan komplikasi.",
-            "Ikuti saran dokter, termasuk pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes membantu dalam pengelolaan kondisi dan pencegahan komplikasi."
+            "Pengobatan dan perubahan pola makan. Rutin berolahraga dan memantau kadar gula darah setiap hari. Program edukasi diabetes membantu dalam pengelolaan kondisi dan pencegahan komplikasi.",
+            "Lakukan aktivitas fisik secara teratur, seperti berjalan kaki, bersepeda, atau olahraga ringan lainnya, setidaknya 30 menit setiap hari.",
+            "Konsumsi makanan sehat dengan memperbanyak sayuran, buah-buahan, dan biji-bijian. Kurangi asupan gula dan makanan tinggi lemak.",
+            "Manfaatkan program edukasi tentang diabetes untuk meningkatkan pengetahuan dan keterampilan dalam mengelola kondisi ini. Edukasi yang baik membantu mencegah komplikasi dan meningkatkan kualitas hidup."
         ]
     }
 }
